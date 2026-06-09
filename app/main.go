@@ -25,8 +25,10 @@ func main() {
 			os.Exit(0)
 		case "echo":
 			commands.Echo(args[1:])
+		case "type":
+			commands.Type(args[1])
 		default:
-			fmt.Printf("%s: command not found\n", command)
+			commands.Invalid(command)
 		}
 	}
 }
