@@ -28,8 +28,6 @@ func Type(command string) {
 func find(command string) (string, bool) {
 	paths := strings.SplitSeq(os.Getenv("PATH"), string(os.PathListSeparator))
 	for p := range paths {
-		d, _ := os.ReadDir(p)
-		fmt.Println(d)
 		fullpath := path.Join(p, command)
 		file, err := os.Stat(fullpath)
 		if err != nil {
