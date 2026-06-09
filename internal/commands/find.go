@@ -10,11 +10,15 @@ import (
 )
 
 func Exec(args []string) {
-	cmd, exists := find(args[0])
+	command, exists := find(args[0])
 	if exists {
-		exec.Command(cmd, args[1:]...)
+		cmd := exec.Command(command, args[1:]...)
+		if err := cmd.Run(); err != nil {
+			slog.Error(err.Error())
+			os.Exit(1)
+		}
 	} else {
-		Invalid(args[0])
+		Invalid(command)
 	}
 }
 
