@@ -25,7 +25,7 @@ func main() {
 		case "echo":
 			commands.Echo(args[1:])
 		case "type":
-			commands.Type(args[1])
+			commands.Type(args[0])
 		default:
 			commands.Exec(args)
 		}
