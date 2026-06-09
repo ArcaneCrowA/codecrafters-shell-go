@@ -9,13 +9,15 @@ import (
 )
 
 func main() {
-	fmt.Print("$ ")
+	for {
+		fmt.Print("$ ")
 
-	command, err := bufio.NewReader(os.Stdin).ReadString('\n')
-	if err != nil {
-		log.Fatal(err)
+		command, err := bufio.NewReader(os.Stdin).ReadString('\n')
+		if err != nil {
+			log.Fatal(err)
+		}
+		command = strings.TrimSpace(command)
+
+		fmt.Printf("%s: command not found", command)
 	}
-	command = strings.TrimSpace(command)
-
-	fmt.Printf("%s: command not found", command)
 }
