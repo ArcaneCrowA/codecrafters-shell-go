@@ -26,7 +26,7 @@ func Type(command string) {
 }
 
 func find(command string) (string, bool) {
-	paths := strings.SplitSeq(os.Getenv("PATH"), string(os.PathSeparator))
+	paths := strings.SplitSeq(os.Getenv("PATH"), string(os.PathListSeparator))
 	for p := range paths {
 		d, _ := os.ReadDir(p)
 		fmt.Println(d)
