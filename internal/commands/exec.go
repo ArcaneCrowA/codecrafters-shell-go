@@ -19,7 +19,7 @@ func Exec(args []string) {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
-		fmt.Printf("$ %s", string(output))
+		fmt.Println(string(output))
 	} else {
 		Invalid(command)
 	}
