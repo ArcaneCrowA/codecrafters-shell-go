@@ -19,7 +19,6 @@ func main() {
 			log.Fatal(err)
 		}
 		args := strings.Fields(strings.TrimSpace(command))
-		command = args[0]
 		switch command {
 		case "exit":
 			os.Exit(0)
@@ -28,7 +27,7 @@ func main() {
 		case "type":
 			commands.Type(args[1])
 		default:
-			commands.Invalid(command)
+			commands.Exec(args)
 		}
 	}
 }
