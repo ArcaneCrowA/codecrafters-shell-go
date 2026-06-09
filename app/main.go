@@ -6,6 +6,8 @@ import (
 	"log"
 	"os"
 	"strings"
+
+	"github.com/codecrafters-io/shell-starter-go/internal/commands"
 )
 
 func main() {
@@ -16,11 +18,15 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		command = strings.TrimSpace(command)
-		if command == "exit" {
+		args := strings.Fields(strings.TrimSpace(command))
+		command = args[0]
+		switch command {
+		case "exit":
 			os.Exit(0)
+		case "echo":
+			commands.Echo(args[1:])
+		default:
+			fmt.Printf("%s: command not found\n", command)
 		}
-
-		fmt.Printf("%s: command not found\n", command)
 	}
 }
