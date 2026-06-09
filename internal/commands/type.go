@@ -38,7 +38,7 @@ func find(command string) (string, bool) {
 			os.Exit(1)
 		}
 		if !file.IsDir() && file.Mode()&001 != 0 {
-			return p, true
+			return fullpath, true
 		}
 	}
 	return "", false
