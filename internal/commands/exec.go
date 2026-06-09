@@ -19,7 +19,7 @@ func Exec(args []string) {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
-		fmt.Println(string(output))
+		fmt.Println(string(output[:len(output)-1]))
 	} else {
 		Invalid(args[0])
 	}
