@@ -37,7 +37,7 @@ func find(command string) (string, bool) {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
-		if !file.IsDir() && file.Mode()&0001 != 0 {
+		if !file.IsDir() && file.Mode()&0111 != 0 {
 			return p, true
 		}
 	}
