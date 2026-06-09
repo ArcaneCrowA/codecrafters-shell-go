@@ -2,6 +2,7 @@ package commands
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"os"
 	"os/exec"
@@ -13,10 +14,12 @@ func Exec(args []string) {
 	command, exists := find(args[0])
 	if exists {
 		cmd := exec.Command(command, args[1:]...)
-		if err := cmd.Run(); err != nil {
+		output, err := cmd.Output()
+		if err != nil {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
+		fmt.Printf("$ %s", string(output))
 	} else {
 		Invalid(command)
 	}
