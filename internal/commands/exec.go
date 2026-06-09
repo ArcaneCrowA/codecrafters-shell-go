@@ -38,9 +38,6 @@ func find(command string) (string, bool) {
 			slog.Error(err.Error())
 			os.Exit(1)
 		}
-		if command == "cat" {
-			fmt.Println(file)
-		}
 		if !file.IsDir() && file.Mode()&001 != 0 {
 			return fullpath, true
 		}
