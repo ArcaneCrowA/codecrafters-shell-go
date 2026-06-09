@@ -11,9 +11,9 @@ import (
 )
 
 func Exec(args []string) {
-	command, exists := find(args[0])
+	_, exists := find(args[0])
 	if exists {
-		cmd := exec.Command(command, args[1:]...)
+		cmd := exec.Command(args[0], args[1:]...)
 		output, err := cmd.Output()
 		if err != nil {
 			slog.Error(err.Error())
@@ -21,7 +21,7 @@ func Exec(args []string) {
 		}
 		fmt.Println(string(output))
 	} else {
-		Invalid(command)
+		Invalid(args[0])
 	}
 }
 
