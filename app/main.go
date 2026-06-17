@@ -27,6 +27,8 @@ func main() {
 			commands.Echo(args[1:])
 		case "type":
 			commands.Type(args[1])
+		case "pwd":
+			commands.Pwd()
 		default:
 			commands.Exec(args)
 		}

@@ -5,7 +5,7 @@ import (
 	"slices"
 )
 
-var builtin = []string{"exit", "echo", "type"}
+var builtin = []string{"exit", "echo", "type", "pwd"}
 
 func Type(command string) {
 	if slices.Contains(builtin, command) {
