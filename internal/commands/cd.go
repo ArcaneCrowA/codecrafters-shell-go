@@ -8,6 +8,10 @@ import (
 )
 
 func Cd(path string) {
+	if path == "~" {
+		path = os.Getenv("HOME")
+	}
+
 	dir, err := filepath.Abs(path)
 	if err != nil {
 		slog.Error(err.Error())
