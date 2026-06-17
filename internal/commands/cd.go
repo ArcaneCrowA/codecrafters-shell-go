@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"fmt"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -12,5 +13,7 @@ func Cd(path string) {
 		slog.Error(err.Error())
 		os.Exit(1)
 	}
-	os.Chdir(dir)
+	if err = os.Chdir(dir); err != nil {
+		fmt.Printf("cd: %s: %s", path, err)
+	}
 }
