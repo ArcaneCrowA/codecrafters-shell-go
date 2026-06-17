@@ -14,6 +14,6 @@ func Cd(path string) {
 		os.Exit(1)
 	}
 	if err = os.Chdir(dir); err != nil {
-		fmt.Printf("cd: %s: %s", path, err)
+		fmt.Printf("cd: %s: No such file or directory\n", path)
 	}
 }
