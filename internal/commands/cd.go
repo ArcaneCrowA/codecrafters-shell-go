@@ -1,17 +1,16 @@
 package commands
 
 import (
-	"fmt"
 	"log/slog"
 	"os"
 	"path/filepath"
 )
 
-func Pwd() {
-	dir, err := filepath.Abs(".")
+func Cd(path string) {
+	dir, err := filepath.Abs(path)
 	if err != nil {
 		slog.Error(err.Error())
 		os.Exit(1)
 	}
-	fmt.Println(dir)
+	os.Chdir(dir)
 }

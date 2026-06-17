@@ -29,6 +29,8 @@ func main() {
 			commands.Type(args[1])
 		case "pwd":
 			commands.Pwd()
+		case "cd":
+			commands.Cd(args[1])
 		default:
 			commands.Exec(args)
 		}
