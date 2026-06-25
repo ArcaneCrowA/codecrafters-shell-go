@@ -39,12 +39,19 @@ func main() {
 }
 
 func getArgs(line string) []string {
-	cleaned := strings.ReplaceAll(strings.TrimSpace(line), "''", "")
+	cleaned := strings.ReplaceAll(strings.ReplaceAll(strings.TrimSpace(line), "''", ""), "\"\"", "")
 	args := make([]string, 0, 1)
 	var word strings.Builder
 	close := true
+	split := '\''
 	for _, r := range cleaned {
-		if r == '\'' {
+		if r == '\'' && close {
+			split = r
+		}
+		if r == '"' && close {
+			split = r
+		}
+		if r == split {
 			close = !close
 			if close {
 				args = append(args, word.String())
@@ -52,6 +59,7 @@ func getArgs(line string) []string {
 			}
 			continue
 		}
+
 		if close && r == ' ' {
 			if word.Len() > 0 {
 				args = append(args, word.String())
