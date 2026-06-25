@@ -40,7 +40,9 @@ func main() {
 			}
 			word.WriteRune(r)
 		}
-		args = append(args, word.String())
+		if word.Len() > 0 {
+			args = append(args, word.String())
+		}
 		command = args[0]
 		switch command {
 		case "exit":
