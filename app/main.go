@@ -37,10 +37,6 @@ func main() {
 			}
 			word.WriteRune(r)
 		}
-		args = append(args, word.String())
-		for _, a := range args {
-			fmt.Println(a)
-		}
 		command = args[0]
 		switch command {
 		case "exit":
