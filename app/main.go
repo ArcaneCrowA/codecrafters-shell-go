@@ -18,31 +18,8 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		cleaned := strings.ReplaceAll(strings.TrimSpace(command), "''", "")
-		args := make([]string, 0, 1)
-		var word strings.Builder
-		close := true
-		for _, r := range cleaned {
-			if r == '\'' {
-				close = !close
-				if close {
-					args = append(args, word.String())
-					word.Reset()
-				}
-				continue
-			}
-			if close && r == ' ' {
-				if word.Len() > 0 {
-					args = append(args, word.String())
-					word.Reset()
-				}
-				continue
-			}
-			word.WriteRune(r)
-		}
-		if word.Len() > 0 {
-			args = append(args, word.String())
-		}
+		args := getArgs(command)
+
 		command = args[0]
 		switch command {
 		case "exit":
@@ -59,4 +36,33 @@ func main() {
 			commands.Exec(args)
 		}
 	}
+}
+
+func getArgs(line string) []string {
+	cleaned := strings.ReplaceAll(strings.TrimSpace(line), "''", "")
+	args := make([]string, 0, 1)
+	var word strings.Builder
+	close := true
+	for _, r := range cleaned {
+		if r == '\'' {
+			close = !close
+			if close {
+				args = append(args, word.String())
+				word.Reset()
+			}
+			continue
+		}
+		if close && r == ' ' {
+			if word.Len() > 0 {
+				args = append(args, word.String())
+				word.Reset()
+			}
+			continue
+		}
+		word.WriteRune(r)
+	}
+	if word.Len() > 0 {
+		args = append(args, word.String())
+	}
+	return args
 }
