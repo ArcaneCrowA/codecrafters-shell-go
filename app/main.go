@@ -18,7 +18,7 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		cleaned := strings.TrimSpace(command)
+		cleaned := strings.ReplaceAll(strings.TrimSpace(command), "''", "")
 		args := make([]string, 0, 1)
 		var word strings.Builder
 		close := true
