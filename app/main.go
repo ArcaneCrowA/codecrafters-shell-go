@@ -18,7 +18,29 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		args := strings.Fields(strings.TrimSpace(command))
+		cleaned := strings.TrimSpace(command)
+		args := make([]string, 0, 1)
+		var word strings.Builder
+		close := true
+		for _, r := range cleaned {
+			if r == '\'' {
+				close = !close
+				if close {
+					args = append(args, word.String())
+					word.Reset()
+				}
+				continue
+			}
+			if close && r == ' ' {
+				args = append(args, word.String())
+				word.Reset()
+			}
+			word.WriteRune(r)
+		}
+		args = append(args, word.String())
+		for _, a := range args {
+			fmt.Println(a)
+		}
 		command = args[0]
 		switch command {
 		case "exit":
