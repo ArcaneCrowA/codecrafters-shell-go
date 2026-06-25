@@ -34,6 +34,7 @@ func main() {
 			if close && r == ' ' {
 				args = append(args, word.String())
 				word.Reset()
+				continue
 			}
 			word.WriteRune(r)
 		}
