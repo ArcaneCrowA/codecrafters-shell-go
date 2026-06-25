@@ -38,6 +38,7 @@ func main() {
 			}
 			word.WriteRune(r)
 		}
+		args = append(args, word.String())
 		command = args[0]
 		switch command {
 		case "exit":
