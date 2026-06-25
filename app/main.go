@@ -32,8 +32,10 @@ func main() {
 				continue
 			}
 			if close && r == ' ' {
-				args = append(args, word.String())
-				word.Reset()
+				if word.Len() > 0 {
+					args = append(args, word.String())
+					word.Reset()
+				}
 				continue
 			}
 			word.WriteRune(r)
