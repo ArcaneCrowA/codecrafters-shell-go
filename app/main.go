@@ -60,7 +60,6 @@ func getArgs(line string) []string {
 			} else {
 				word.WriteRune(runes[i])
 			}
-			continue
 		}
 		if open {
 			word.WriteRune(runes[i])
