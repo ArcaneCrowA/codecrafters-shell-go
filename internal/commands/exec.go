@@ -20,5 +20,5 @@ func Exec(args []string, redirect int, file string) {
 		os.Exit(1)
 	}
 
-	writeOutput(string(output[:len(output)-1]), redirect, file)
+	writeOutput(string(output), redirect, file)
 }
