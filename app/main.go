@@ -40,20 +40,24 @@ func main() {
 
 func getArgs(line string) []string {
 	runes := []rune(strings.TrimRight(line, "\r\n"))
-	args := make([]string, 0, 1)
+	args := make([]string, 0)
 	var word strings.Builder
 	var split rune
 	var open bool
+
 	for i := 0; i < len(runes); i++ {
 		r := runes[i]
 
-		if open {
-			if split == '\'' {
-				word.WriteRune(r)
+		if r == '\\' && (!open || split == '"') && i+1 < len(runes) {
+			switch runes[i+1] {
+			case 't':
+				word.WriteRune('\t')
+			case 'n':
+				word.WriteRune('\n')
+			default:
+				word.WriteRune(runes[i+1])
 			}
-		} else if r == '\\' && i+1 < len(runes) {
 			i++
-			word.WriteRune(runes[i])
 			continue
 		}
 
@@ -61,13 +65,11 @@ func getArgs(line string) []string {
 			if !open {
 				split = r
 				open = true
+				continue
 			} else if split == r {
 				open = false
-
-			} else {
-				word.WriteRune(r)
+				continue
 			}
-			continue
 		}
 
 		if !open && r == ' ' {
@@ -75,7 +77,9 @@ func getArgs(line string) []string {
 				args = append(args, word.String())
 				word.Reset()
 			}
+			continue
 		}
+		word.WriteRune(r)
 	}
 
 	if word.Len() > 0 {
