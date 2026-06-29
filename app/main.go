@@ -75,10 +75,7 @@ func getArgs(line string) []string {
 				args = append(args, word.String())
 				word.Reset()
 			}
-			continue
 		}
-
-		word.WriteRune(r)
 	}
 
 	if word.Len() > 0 {
