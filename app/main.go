@@ -55,6 +55,11 @@ func getArgs(line string) ([]string, int, string) {
 			redirect = 1
 			continue
 		}
+		if r == '1' && i+1 < len(runes) && runes[i+1] == '>' {
+			redirect = 1
+			i++
+			continue
+		}
 		if redirect > 0 {
 			if r != ' ' {
 				file.WriteRune(r)
