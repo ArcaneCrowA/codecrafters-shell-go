@@ -44,41 +44,42 @@ func getArgs(line string) []string {
 	var word strings.Builder
 	var split rune
 	var open bool
-	for i := 0; i < len(runes)-1; i++ {
-		if runes[i] == '\'' || runes[i] == '"' {
-			if runes[i] == runes[i+1] {
-				i++
-				continue
-			}
-			if !open {
-				split = runes[i]
-				open = true
-			} else if split == runes[i] {
-				args = append(args, word.String())
-				word.Reset()
-				open = false
-			} else {
-				word.WriteRune(runes[i])
-			}
-		}
-		if open {
+	for i := 0; i < len(runes); i++ {
+		r := runes[i]
+
+		if r == '\\' && i+1 < len(runes) {
+			i++
 			word.WriteRune(runes[i])
 			continue
 		}
-		switch runes[i] {
-		case '\\':
-			word.WriteRune(runes[i+1])
-			i++
-		case ' ':
-			args = append(args, word.String())
-			word.Reset()
-		default:
-			word.WriteRune(runes[i])
+
+		if r == '\'' || r == '"' {
+			if !open {
+				split = r
+				open = true
+			} else if split == r {
+				open = false
+
+			} else {
+				word.WriteRune(r)
+			}
+			continue
 		}
+
+		if !open && r == ' ' {
+			if word.Len() > 0 {
+				args = append(args, word.String())
+				word.Reset()
+			}
+			continue
+		}
+
+		word.WriteRune(r)
 	}
 
 	if word.Len() > 0 {
 		args = append(args, word.String())
 	}
+
 	return args
 }
