@@ -62,15 +62,15 @@ func getArgs(line string) []string {
 			word.WriteRune(runes[i])
 			continue
 		}
-		if runes[i] == '\\' {
+		switch runes[i] {
+		case '\\':
 			word.WriteRune(runes[i+1])
 			i++
-		} else {
-			word.WriteRune(runes[i])
-		}
-		if runes[i] == ' ' {
+		case ' ':
 			args = append(args, word.String())
 			word.Reset()
+		default:
+			word.WriteRune(runes[i])
 		}
 	}
 
