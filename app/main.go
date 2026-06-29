@@ -64,6 +64,13 @@ func getArgs(line string) []string {
 		}
 		if runes[i] == '\\' {
 			word.WriteRune(runes[i+1])
+			i++
+		} else {
+			word.WriteRune(runes[i])
+		}
+		if runes[i] == ' ' {
+			args = append(args, word.String())
+			word.Reset()
 		}
 	}
 
