@@ -2,6 +2,7 @@ package commands
 
 import (
 	"errors"
+	"fmt"
 	"log/slog"
 	"os"
 	"path"
@@ -31,4 +32,17 @@ func exists(fullpath string) (os.FileInfo, bool) {
 		os.Exit(1)
 	}
 	return file, true
+}
+
+func writeOutput(line string, redirect int, file string) {
+	switch redirect {
+	case 0:
+		fmt.Println(line)
+	case 1:
+		fullpath := path.Join(pwd(), file)
+		if err := os.WriteFile(fullpath, []byte(line), 0644); err != nil {
+			slog.Error("failed to write to file", "err", err.Error())
+			os.Exit(1)
+		}
+	}
 }

@@ -33,7 +33,7 @@ func main() {
 		case "cd":
 			commands.Cd(args[1])
 		default:
-			commands.Exec(args)
+			commands.Exec(args, redirect, file)
 		}
 	}
 }
