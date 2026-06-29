@@ -74,7 +74,9 @@ func getArgs(line string) []string {
 			continue
 		}
 
-		word.WriteRune(r)
+		if r != '\n' {
+			word.WriteRune(r)
+		}
 	}
 
 	if word.Len() > 0 {
