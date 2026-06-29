@@ -39,7 +39,7 @@ func main() {
 }
 
 func getArgs(line string) []string {
-	runes := []rune(line)
+	runes := []rune(strings.TrimRight(line, "\r\n"))
 	args := make([]string, 0, 1)
 	var word strings.Builder
 	var split rune
@@ -74,9 +74,7 @@ func getArgs(line string) []string {
 			continue
 		}
 
-		if r != '\n' {
-			word.WriteRune(r)
-		}
+		word.WriteRune(r)
 	}
 
 	if word.Len() > 0 {
