@@ -48,7 +48,7 @@ func getArgs(line string) []string {
 	for i := 0; i < len(runes); i++ {
 		r := runes[i]
 
-		if r == '\\' && (!open && split == '"') && i+1 < len(runes) {
+		if r == '\\' && (open && split == '"') && i+1 < len(runes) {
 			switch runes[i+1] {
 			case 't':
 				word.WriteRune('\t')
