@@ -16,7 +16,7 @@ func Exec(args []string, redirect int, file string) {
 	cmd := exec.Command(args[0], args[1:]...)
 	output, err := cmd.Output()
 	if err != nil {
-		slog.Error(err.Error())
+		slog.Error("failed to execute", "err", err.Error())
 		os.Exit(1)
 	}
 
