@@ -39,36 +39,34 @@ func main() {
 }
 
 func getArgs(line string) []string {
-	cleaned := strings.ReplaceAll(strings.ReplaceAll(strings.TrimSpace(line), "''", ""), "\"\"", "")
+	runes := []rune(line)
 	args := make([]string, 0, 1)
 	var word strings.Builder
-	close := true
-	split := '\''
-	for _, r := range cleaned {
-		if r == '\'' && close {
-			split = r
-		}
-		if r == '"' && close {
-			split = r
-		}
-		if r == split {
-			close = !close
-			if close {
+	var split rune
+	var open bool
+	for i := 0; i < len(runes)-1; i++ {
+		if runes[i] == '\'' || runes[i] == '"' {
+			if !open {
+				split = runes[i]
+				open = true
+			} else if split == runes[i] {
 				args = append(args, word.String())
 				word.Reset()
+				open = false
+			} else {
+				word.WriteRune(runes[i])
 			}
 			continue
 		}
-
-		if close && r == ' ' {
-			if word.Len() > 0 {
-				args = append(args, word.String())
-				word.Reset()
-			}
+		if open {
+			word.WriteRune(runes[i])
 			continue
 		}
-		word.WriteRune(r)
+		if runes[i] == '\\' {
+			word.WriteRune(runes[i+1])
+		}
 	}
+
 	if word.Len() > 0 {
 		args = append(args, word.String())
 	}
