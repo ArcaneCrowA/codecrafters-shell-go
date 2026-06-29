@@ -46,13 +46,14 @@ func getArgs(line string) []string {
 	var open bool
 	for i := 0; i < len(runes)-1; i++ {
 		if runes[i] == '\'' || runes[i] == '"' {
+			if runes[i] == runes[i+1] {
+				i++
+				continue
+			}
 			if !open {
 				split = runes[i]
 				open = true
 			} else if split == runes[i] {
-				if split == runes[i+1] {
-					continue
-				}
 				args = append(args, word.String())
 				word.Reset()
 				open = false
