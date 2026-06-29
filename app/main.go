@@ -50,6 +50,9 @@ func getArgs(line string) []string {
 				split = runes[i]
 				open = true
 			} else if split == runes[i] {
+				if split == runes[i+1] {
+					continue
+				}
 				args = append(args, word.String())
 				word.Reset()
 				open = false
