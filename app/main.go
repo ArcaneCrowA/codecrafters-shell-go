@@ -47,7 +47,11 @@ func getArgs(line string) []string {
 	for i := 0; i < len(runes); i++ {
 		r := runes[i]
 
-		if r == '\\' && i+1 < len(runes) {
+		if open {
+			if split == '\'' {
+				word.WriteRune(r)
+			}
+		} else if r == '\\' && i+1 < len(runes) {
 			i++
 			word.WriteRune(runes[i])
 			continue
