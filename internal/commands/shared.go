@@ -40,7 +40,7 @@ func exists(fullpath string) (os.FileInfo, bool) {
 func writeOutput(line string, redirect int, file string) {
 	switch redirect {
 	case 0:
-		fmt.Printf("%s\n", strings.Trim(line, "\n "))
+		fmt.Println(strings.TrimRight(line, "\n"))
 	case 1:
 		var fullpath string
 		if path.IsAbs(file) {
@@ -48,6 +48,7 @@ func writeOutput(line string, redirect int, file string) {
 		} else {
 			fullpath = path.Join(pwd(), file)
 		}
+		fmt.Println(line)
 		if err := os.WriteFile(fullpath, []byte(line), 0644); err != nil {
 			slog.Error("failed to write to file", "err", err.Error())
 			os.Exit(1)
