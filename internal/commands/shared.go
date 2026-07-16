@@ -2,7 +2,6 @@ package commands
 
 import (
 	"errors"
-	"fmt"
 	"log/slog"
 	"os"
 	"path"
@@ -37,34 +36,24 @@ func exists(fullpath string) (os.FileInfo, bool) {
 	return file, true
 }
 
-func writeOutput(line string, redirect int, file string) {
-	line = strings.TrimRight(line, "\n")
-	switch redirect {
-	case 0:
-		fmt.Println(line)
-	case 1:
-		var fullpath string
-		if path.IsAbs(file) {
-			fullpath = file
-		} else {
-			fullpath = path.Join(pwd(), file)
-		}
+func writeOutput(line string, file string) {
+	line = strings.TrimSuffix(line, "\n")
 
-		if err := os.WriteFile(fullpath, []byte(line+"\n"), 0644); err != nil {
-			slog.Error("failed to write to file", "err", err.Error())
-			os.Exit(1)
-		}
-	case 2:
-		var fullpath string
-		if path.IsAbs(file) {
-			fullpath = file
-		} else {
-			fullpath = path.Join(pwd(), file)
-		}
+	var fullpath string
+	if path.IsAbs(file) {
+		fullpath = file
+	} else {
+		fullpath = path.Join(pwd(), file)
+	}
 
-		if err := os.WriteFile(fullpath, []byte(line+"\n"), 0644); err != nil {
-			slog.Error("failed to write to file", "err", err.Error())
-			os.Exit(1)
-		}
+	dir := path.Dir(fullpath)
+	if err := os.MkdirAll(dir, 0755); err != nil {
+		slog.Error("failed to create directory", "err", err.Error())
+		os.Exit(1)
+	}
+
+	if err := os.WriteFile(fullpath, []byte(line+"\n"), 0644); err != nil {
+		slog.Error("failed to write to file", "err", err.Error())
+		os.Exit(1)
 	}
 }

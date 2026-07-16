@@ -4,6 +4,6 @@ import (
 	"strings"
 )
 
-func Echo(args []string, redirect int, file string) {
-	writeOutput(strings.Join(args, " "), redirect, file)
+func Echo(args []string, file string) {
+	writeOutput(strings.Join(args, " "), file)
 }

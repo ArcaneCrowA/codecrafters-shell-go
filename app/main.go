@@ -25,7 +25,7 @@ func main() {
 		case "exit":
 			os.Exit(0)
 		case "echo":
-			commands.Echo(args[1:], redirect, file)
+			commands.Echo(args[1:], file)
 		case "type":
 			commands.Type(args[1])
 		case "pwd":

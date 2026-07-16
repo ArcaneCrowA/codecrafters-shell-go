@@ -25,11 +25,11 @@ func Exec(args []string, redirect int, file string) {
 		cmd.Stdout = &stdoutBuf
 		cmd.Stderr = os.Stderr
 		_ = cmd.Run()
-		writeOutput(stdoutBuf.String(), redirect, file)
+		writeOutput(stdoutBuf.String(), file)
 	case 2:
 		cmd.Stdout = os.Stdout
 		cmd.Stderr = &stderrBuf
 		_ = cmd.Run()
-		writeOutput(stderrBuf.String(), redirect, file)
+		writeOutput(stderrBuf.String(), file)
 	}
 }
