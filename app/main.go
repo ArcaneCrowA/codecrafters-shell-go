@@ -51,7 +51,7 @@ func getArgs(line string) ([]string, int, string) {
 	for i := 0; i < len(runes); i++ {
 		r := runes[i]
 
-		if r == '>' {
+		if redirect == 0 && r == '>' {
 			redirect = 1
 			continue
 		}
