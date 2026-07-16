@@ -48,7 +48,7 @@ func writeOutput(line string, redirect int, file string) {
 		} else {
 			fullpath = path.Join(pwd(), file)
 		}
-		fmt.Println(line)
+
 		if err := os.WriteFile(fullpath, []byte(line), 0644); err != nil {
 			slog.Error("failed to write to file", "err", err.Error())
 			os.Exit(1)
