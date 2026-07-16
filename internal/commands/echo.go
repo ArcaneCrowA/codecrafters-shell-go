@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
-func Echo(args []string) {
-	fmt.Println(strings.Join(args, " "))
+func Echo(args []string, redirect int, file string) {
+	w, _, cleanup, _ := SetupRedirect(redirect, file)
+	defer cleanup()
+	fmt.Fprintln(w, strings.Join(args, " "))
 }

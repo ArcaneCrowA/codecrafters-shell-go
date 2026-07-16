@@ -25,13 +25,13 @@ func main() {
 		case "exit":
 			os.Exit(0)
 		case "echo":
-			commands.Echo(args[1:])
+			commands.Echo(args[1:], redirect, file)
 		case "type":
-			commands.Type(args[1])
+			commands.Type(args[1], redirect, file)
 		case "pwd":
-			commands.Pwd()
+			commands.Pwd(redirect, file)
 		case "cd":
-			commands.Cd(args[1])
+			commands.Cd(args[1], redirect, file)
 		default:
 			commands.Exec(args, redirect, file)
 		}

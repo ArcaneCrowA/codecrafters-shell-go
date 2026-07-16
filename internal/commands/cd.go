@@ -7,7 +7,9 @@ import (
 	"path/filepath"
 )
 
-func Cd(path string) {
+func Cd(path string, redirect int, file string) {
+	_, ew, cleanup, _ := SetupRedirect(redirect, file)
+	defer cleanup()
 	if path == "~" {
 		path = os.Getenv("HOME")
 	}
@@ -18,6 +20,6 @@ func Cd(path string) {
 		os.Exit(1)
 	}
 	if err = os.Chdir(dir); err != nil {
-		fmt.Printf("cd: %s: No such file or directory\n", path)
+		fmt.Fprintf(ew, "cd: %s: No such file or directory\n", path)
 	}
 }

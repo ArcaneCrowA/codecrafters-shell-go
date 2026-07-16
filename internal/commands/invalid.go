@@ -1,7 +1,11 @@
 package commands
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func Invalid(command string) {
-	fmt.Printf("%s: not found\n", command)
+func Invalid(command string, redirect int, file string) {
+	w, _, cleanup, _ := SetupRedirect(redirect, file)
+	defer cleanup()
+	fmt.Fprintf(w, "%s: not found\n", command)
 }

@@ -2,6 +2,7 @@ package commands
 
 import (
 	"errors"
+	"io"
 	"log/slog"
 	"os"
 	"path"
@@ -34,4 +35,30 @@ func exists(fullpath string) (os.FileInfo, bool) {
 		os.Exit(1)
 	}
 	return file, true
+}
+
+func SetupOutputFile(filename string) (*os.File, error) {
+	fullpath := filename
+	if !path.IsAbs(fullpath) {
+		pwd, _ := os.Getwd()
+		fullpath = path.Join(pwd, fullpath)
+	}
+	if err := os.MkdirAll(path.Dir(fullpath), 0755); err != nil {
+		return nil, err
+	}
+	return os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
+}
+
+func SetupRedirect(redirect int, filename string) (stdout io.Writer, stderr io.Writer, cleanup func(), err error) {
+	if redirect == 0 {
+		return os.Stdout, os.Stderr, func() {}, nil
+	}
+	f, err := SetupOutputFile(filename)
+	if err != nil {
+		return nil, nil, nil, err
+	}
+	if redirect == 1 {
+		return f, os.Stderr, func() { f.Close() }, nil
+	}
+	return os.Stdout, f, func() { f.Close() }, nil
 }

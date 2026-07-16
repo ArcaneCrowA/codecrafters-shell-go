@@ -7,9 +7,10 @@ import (
 	"path/filepath"
 )
 
-func Pwd() {
-	dir := pwd()
-	fmt.Println(dir)
+func Pwd(redirect int, file string) {
+	w, _, cleanup, _ := SetupRedirect(redirect, file)
+	defer cleanup()
+	fmt.Fprintln(w, pwd())
 }
 
 func pwd() string {
