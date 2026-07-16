@@ -38,9 +38,10 @@ func exists(fullpath string) (os.FileInfo, bool) {
 }
 
 func writeOutput(line string, redirect int, file string) {
+	line = strings.TrimRight(line, "\n")
 	switch redirect {
 	case 0:
-		fmt.Println(strings.TrimRight(line, "\n"))
+		fmt.Println(line)
 	case 1:
 		var fullpath string
 		if path.IsAbs(file) {
