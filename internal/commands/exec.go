@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"bytes"
 	"os"
 	"os/exec"
 )
@@ -13,25 +14,22 @@ func Exec(args []string, redirect int, file string) {
 	}
 
 	cmd := exec.Command(args[0], args[1:]...)
+	var stdoutBuf, stderrBuf bytes.Buffer
+
 	switch redirect {
 	case 0:
 		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
 		_ = cmd.Run()
 	case 1:
-		cmd.Stderr = os.Stderr
-		output, err := cmd.Output()
-		if len(output) > 0 {
-			writeOutput(string(output), redirect, file)
-		} else if err != nil {
-			writeOutput("", redirect, file)
-		}
+		cmd.Stdout = &stdoutBuf
+		cmd.Stderr = &stderrBuf
+		_ = cmd.Run()
+		writeOutput(stdoutBuf.String(), redirect, file)
 	case 2:
-		cmd.Stdout = os.Stderr
-		output, err := cmd.Output()
-		if len(output) > 0 {
-			writeOutput(string(output), redirect, file)
-		} else if err != nil {
-			writeOutput("", redirect, file)
-		}
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = &stderrBuf
+		_ = cmd.Run()
+		writeOutput(stderrBuf.String(), redirect, file)
 	}
 }
