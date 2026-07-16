@@ -16,10 +16,11 @@ func Exec(args []string, redirect int, file string) {
 	cmd.Stderr = os.Stderr
 	if redirect > 0 {
 		output, err := cmd.Output()
-		if err != nil {
-			return
+		if len(output) > 0 {
+			writeOutput(string(output), redirect, file)
+		} else if err != nil {
+			writeOutput("", redirect, file)
 		}
-		writeOutput(string(output), redirect, file)
 	} else {
 		cmd.Stdout = os.Stdout
 		_ = cmd.Run()
