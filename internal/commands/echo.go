@@ -1,9 +1,10 @@
 package commands
 
 import (
+	"fmt"
 	"strings"
 )
 
-func Echo(args []string, file string) {
-	writeOutput(strings.Join(args, " "), file)
+func Echo(args []string) {
+	fmt.Println(strings.Join(args, " "))
 }
