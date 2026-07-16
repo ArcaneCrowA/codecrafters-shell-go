@@ -2,11 +2,13 @@ package commands
 
 import (
 	"bytes"
+	"fmt"
 	"os"
 	"os/exec"
 )
 
 func Exec(args []string, redirect int, file string) {
+	fmt.Fprintf(os.Stderr, "DEBUG: Executing Command: %v | Redirect Mode: %d | Target File: %q\n", args, redirect, file)
 	_, exists := find(args[0])
 	if !exists {
 		Invalid(args[0])
