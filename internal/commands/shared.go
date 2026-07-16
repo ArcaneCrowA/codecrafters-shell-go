@@ -49,7 +49,7 @@ func writeOutput(line string, redirect int, file string) {
 			fullpath = path.Join(pwd(), file)
 		}
 
-		if err := os.WriteFile(fullpath, []byte(line), 0644); err != nil {
+		if err := os.WriteFile(fullpath, []byte(line+"\n"), 0644); err != nil {
 			slog.Error("failed to write to file", "err", err.Error())
 			os.Exit(1)
 		}
