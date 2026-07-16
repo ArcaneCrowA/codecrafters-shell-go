@@ -26,7 +26,7 @@ func Exec(args []string, redirect int, file string) {
 			writeOutput("", redirect, file)
 		}
 	case 2:
-		cmd.Stdout = os.Stderr
+		cmd.Stderr = os.Stderr
 		output, err := cmd.Output()
 		if len(output) > 0 {
 			writeOutput(string(output), redirect, file)
