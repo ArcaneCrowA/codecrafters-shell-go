@@ -39,12 +39,14 @@ func Exec(args []string, redirect int, file string) {
 	}
 	defer outFile.Close()
 
-	if redirect == 1 {
+	switch redirect {
+	case 1:
 		cmd.Stdout = outFile
 		cmd.Stderr = os.Stderr
-	} else if redirect == 2 {
+	case 2:
 		cmd.Stdout = os.Stdout
-		cmd.Stderr = os.Stderr
+		cmd.Stderr = outFile
 	}
 
+	_ = cmd.Run()
 }
