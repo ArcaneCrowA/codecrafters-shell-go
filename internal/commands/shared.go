@@ -55,9 +55,6 @@ func SetupAppendFile(filename string) (*os.File, error) {
 		pwd, _ := os.Getwd()
 		fullpath = path.Join(pwd, fullpath)
 	}
-	if err := os.MkdirAll(path.Dir(fullpath), 0755); err != nil {
-		return nil, err
-	}
 	return os.OpenFile(fullpath, os.O_WRONLY|os.O_APPEND|os.O_TRUNC, 0644)
 }
 
