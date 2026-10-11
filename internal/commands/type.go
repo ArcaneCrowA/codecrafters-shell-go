@@ -8,7 +8,7 @@ import (
 var builtin = []string{"exit", "echo", "type", "pwd"}
 
 func Type(command string, redirect int, file string) {
-	w, _, cleanup, _ := SetupRedirect(redirect, file)
+	w, _, cleanup, _ := SetupRedirect(false, redirect, file)
 	defer cleanup()
 	if slices.Contains(builtin, command) {
 		fmt.Fprintf(w, "%s is a shell builtin\n", command)

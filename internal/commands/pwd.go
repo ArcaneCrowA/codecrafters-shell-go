@@ -8,7 +8,7 @@ import (
 )
 
 func Pwd(redirect int, file string) {
-	w, _, cleanup, _ := SetupRedirect(redirect, file)
+	w, _, cleanup, _ := SetupRedirect(false, redirect, file)
 	defer cleanup()
 	fmt.Fprintln(w, pwd())
 }

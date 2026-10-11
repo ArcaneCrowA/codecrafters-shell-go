@@ -8,7 +8,7 @@ import (
 )
 
 func Cd(path string, redirect int, file string) {
-	_, ew, cleanup, _ := SetupRedirect(redirect, file)
+	_, ew, cleanup, _ := SetupRedirect(false, redirect, file)
 	defer cleanup()
 	if path == "~" {
 		path = os.Getenv("HOME")

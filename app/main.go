@@ -18,14 +18,14 @@ func main() {
 		if err != nil {
 			log.Fatal(err)
 		}
-		args, redirect, file := getArgs(command)
+		args, isAppend, redirect, file := getArgs(command)
 
 		command = args[0]
 		switch command {
 		case "exit":
 			os.Exit(0)
 		case "echo":
-			commands.Echo(args[1:], redirect, file)
+			commands.Echo(args[1:], isAppend, redirect, file)
 		case "type":
 			commands.Type(args[1], redirect, file)
 		case "pwd":
@@ -38,12 +38,13 @@ func main() {
 	}
 }
 
-func getArgs(line string) ([]string, int, string) {
+func getArgs(line string) ([]string, bool, int, string) {
 	runes := []rune(strings.TrimRight(line, "\r\n"))
 	args := make([]string, 0)
 	var word strings.Builder
 	var split rune
 	var open bool
+	var isAppend bool
 
 	var redirect int
 	var file strings.Builder
@@ -53,16 +54,28 @@ func getArgs(line string) ([]string, int, string) {
 
 		if redirect == 0 && r == '>' {
 			redirect = 1
+			if runes[i+1] == '>' {
+				isAppend = true
+				i++
+			}
 			continue
 		}
 		if r == '1' && i+1 < len(runes) && runes[i+1] == '>' {
 			redirect = 1
 			i++
+			if runes[i+1] == '>' {
+				isAppend = true
+				i++
+			}
 			continue
 		}
 		if r == '2' && i+1 < len(runes) && runes[i+1] == '>' {
 			redirect = 2
 			i++
+			if runes[i+1] == '>' {
+				isAppend = true
+				i++
+			}
 			continue
 		}
 		if redirect > 0 {
@@ -117,5 +130,5 @@ func getArgs(line string) ([]string, int, string) {
 		args = append(args, word.String())
 	}
 
-	return args, redirect, file.String()
+	return args, isAppend, redirect, file.String()
 }

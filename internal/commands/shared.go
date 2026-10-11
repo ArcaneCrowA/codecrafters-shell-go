@@ -49,11 +49,30 @@ func SetupOutputFile(filename string) (*os.File, error) {
 	return os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
 }
 
-func SetupRedirect(redirect int, filename string) (stdout io.Writer, stderr io.Writer, cleanup func(), err error) {
+func SetupAppendFile(filename string) (*os.File, error) {
+	fullpath := filename
+	if !path.IsAbs(fullpath) {
+		pwd, _ := os.Getwd()
+		fullpath = path.Join(pwd, fullpath)
+	}
+	if err := os.MkdirAll(path.Dir(fullpath), 0755); err != nil {
+		return nil, err
+	}
+	return os.OpenFile(fullpath, os.O_WRONLY|os.O_APPEND|os.O_TRUNC, 0644)
+}
+
+func SetupRedirect(isAppend bool, redirect int, filename string) (stdout io.Writer, stderr io.Writer, cleanup func(), err error) {
 	if redirect == 0 {
 		return os.Stdout, os.Stderr, func() {}, nil
 	}
-	f, err := SetupOutputFile(filename)
+
+	var f *os.File
+
+	if isAppend {
+		f, err = SetupAppendFile(filename)
+	} else {
+		f, err = SetupOutputFile(filename)
+	}
 	if err != nil {
 		return nil, nil, nil, err
 	}
