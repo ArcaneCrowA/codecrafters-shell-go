@@ -27,13 +27,13 @@ func main() {
 		case "echo":
 			commands.Echo(args[1:], isAppend, redirect, file)
 		case "type":
-			commands.Type(args[1], redirect, file)
+			commands.Type(args[1], isAppend, redirect, file)
 		case "pwd":
-			commands.Pwd(redirect, file)
+			commands.Pwd(isAppend, redirect, file)
 		case "cd":
-			commands.Cd(args[1], redirect, file)
+			commands.Cd(args[1], isAppend, redirect, file)
 		default:
-			commands.Exec(args, redirect, file)
+			commands.Exec(args, isAppend, redirect, file)
 		}
 	}
 }

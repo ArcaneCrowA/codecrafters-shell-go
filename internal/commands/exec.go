@@ -6,10 +6,10 @@ import (
 	"os/exec"
 )
 
-func Exec(args []string, redirect int, file string) {
+func Exec(args []string, isAppend bool, redirect int, file string) {
 	_, exists := find(args[0])
 	if !exists {
-		Invalid(args[0], redirect, file)
+		Invalid(args[0], isAppend, redirect, file)
 		return
 	}
 
@@ -22,7 +22,15 @@ func Exec(args []string, redirect int, file string) {
 		return
 	}
 
-	outFile, err := SetupOutputFile(file)
+	var (
+		outFile *os.File
+		err     error
+	)
+	if isAppend {
+		outFile, err = SetupAppendFile(file)
+	} else {
+		outFile, err = SetupOutputFile(file)
+	}
 	if err != nil {
 		slog.Error("failed to open redirect file", "err", err.Error())
 		return

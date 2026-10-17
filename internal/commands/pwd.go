@@ -7,8 +7,8 @@ import (
 	"path/filepath"
 )
 
-func Pwd(redirect int, file string) {
-	w, _, cleanup, _ := SetupRedirect(false, redirect, file)
+func Pwd(isAppend bool, redirect int, file string) {
+	w, _, cleanup, _ := SetupRedirect(isAppend, redirect, file)
 	defer cleanup()
 	fmt.Fprintln(w, pwd())
 }
