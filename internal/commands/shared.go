@@ -55,7 +55,10 @@ func SetupAppendFile(filename string) (*os.File, error) {
 		pwd, _ := os.Getwd()
 		fullpath = path.Join(pwd, fullpath)
 	}
-	return os.OpenFile(fullpath, os.O_WRONLY|os.O_APPEND|os.O_TRUNC, 0644)
+	if err := os.MkdirAll(path.Dir(fullpath), 0755); err != nil {
+		return nil, err
+	}
+	return os.OpenFile(fullpath, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 }
 
 func SetupRedirect(isAppend bool, redirect int, filename string) (stdout io.Writer, stderr io.Writer, cleanup func(), err error) {
